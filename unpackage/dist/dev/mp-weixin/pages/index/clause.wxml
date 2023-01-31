@@ -1,0 +1,1 @@
+<view><web-view src="{{'https://kql.iqweb.net/api/article/detail?article_id='+id}}"></web-view></view>

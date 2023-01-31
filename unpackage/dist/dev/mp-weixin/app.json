@@ -1,0 +1,28 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/index/password",
+    "pages/index/memberBar",
+    "pages/index/logistics",
+    "pages/index/contract",
+    "pages/wallet/wallet",
+    "pages/order/order",
+    "pages/order/completeOrder",
+    "pages/order/receivingOrders",
+    "pages/order/arrival",
+    "pages/order/arrivalYy",
+    "pages/order/shopInfo",
+    "pages/order/orderDetails",
+    "pages/index/clause",
+    "pages/index/help",
+    "pages/wallet/account"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "我的",
+    "navigationBarBackgroundColor": "#FF9EC3",
+    "backgroundColor": "#F8F8F8"
+  },
+  "usingComponents": {}
+}

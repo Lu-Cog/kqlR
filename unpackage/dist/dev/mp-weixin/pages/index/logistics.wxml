@@ -1,0 +1,1 @@
+<view><view data-event-opts="{{[['tap',[['goto',[3]]]]]}}" class="item" bindtap="__e"><view class="left">隱私權政策</view><image src="../../static/img/33.png" mode="widthFix"></image></view><view data-event-opts="{{[['tap',[['goto',[4]]]]]}}" class="item" bindtap="__e"><view class="left">使用者條款</view><image src="../../static/img/33.png" mode="widthFix"></image></view></view>
