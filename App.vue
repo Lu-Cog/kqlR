@@ -1,7 +1,7 @@
 <script>
 	export default {
 		globalData: {
-			token: '',
+			token: '3847ce8ea878df5c624012a24692f599',
 			date: '',
 			time: '',
 			address_id: '',
@@ -22,11 +22,11 @@
 			// })
 			
 			try {
-				var arg = JSON.parse(plus.runtime.arguments)
+				// var arg = JSON.parse(plus.runtime.arguments)
 				uni.onNativeEventReceive((event,data)=>{  
 					that.globalData.path = data.path
 				})
-				// var arg = {"token":"4c9b8402c254c15c86f3e85f8222cf59"}
+				var arg = {"token":"3847ce8ea878df5c624012a24692f599"}
 				if (arg.token == "" || arg.token == undefined) {
 					if (uni.getStorageSync('token') == '' || uni.getStorageSync('token') == undefined) {
 						return uni.sendNativeEvent('loginOut', ret => {})

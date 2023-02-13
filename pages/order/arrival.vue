@@ -26,6 +26,14 @@
 			<view class="bottom">
 				存餘氣：<text @click="reduce()">-</text><input type="text" v-model="num" /><text @click="add()">+</text>公斤
 			</view>
+			<view class="yjin">
+				<view class="tip">
+					需要酌收1桶x15kg押金1500元
+				</view>
+				<view class="ymoney">
+					實收金額<input type="text" v-model="yjin" />元
+				</view>
+			</view>
 			<view class="img">
 				<image src="../../static/img/1917.png" mode="widthFix"></image>
 			</view>
@@ -131,6 +139,11 @@
 				}
 				getOrderInfo(data).then(res => {
 					this.orderInfo = res.data
+					uni.showModal({
+						title:'提示',
+						content:'新用戶需要酌收1桶x15kg押金1500元',
+						showCancel:false
+					})
 					getOrderConfig({}).then(res2 => {
 						res2.data.gtpay_type.forEach(item=>{
 							if(this.orderInfo.gtpay_type==item.type){
@@ -220,7 +233,7 @@
 		.bottom {
 			border-top: 1px dashed #707070;
 			background-color: #fff;
-			padding: 30rpx 44rpx;
+			padding: 30rpx 44rpx 10rpx;
 			font-size: 32rpx;
 			display: flex;
 			align-items: center;
@@ -239,7 +252,23 @@
 				margin: 0 20rpx;
 			}
 		}
-
+		.yjin{
+			background-color: #fff;
+			padding: 10rpx 44rpx 30rpx;
+			font-size: 32rpx;
+			.ymoney{
+				display: flex;
+				align-items: center;
+			}
+			input {
+				width: 120rpx;
+				text-align: center;
+				background-color: #E8E8E8;
+				font-size: 40rpx;
+				font-weight: 700;
+				margin: 0 20rpx;
+			}
+		}
 		.main {
 			background-color: #fff;
 			padding: 30rpx 44rpx;

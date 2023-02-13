@@ -13,17 +13,17 @@ function baseRequest(url, method, data, {
 	noAuth = false,
 	noVerify = false
 }) {
-	let Url = 'https://kql.iqweb.net',
-	// let Url = 'http://kql_dev.iqweb.net',
+	// let Url = 'https://kql.iqweb.net',
+	let Url = 'http://kql_dev.iqweb.net',
 		header = HEADER;
-	if (!noAuth) {
-		//登录过期自动登录
-		if (!Cache.get('token')) {
-			return Promise.reject({
-				msg: '未登录'
-			});
-		}
-	}
+	// if (!noAuth) {
+	// 	//登录过期自动登录
+	// 	if (!Cache.get('token')) {
+	// 		return Promise.reject({
+	// 			msg: '未登录'
+	// 		});
+	// 	}
+	// }
 	
 	data.token = getApp().globalData.token;
 	return new Promise((reslove, reject) => {

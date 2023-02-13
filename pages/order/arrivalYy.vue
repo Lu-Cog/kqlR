@@ -26,6 +26,17 @@
 			<view class="bottom">
 				存餘氣：<text @click="reduce()">-</text><input type="text" v-model="num" /><text @click="add()">+</text>公斤
 			</view>
+			<view class="yjin">
+				<view class="tip">
+					需要酌收1桶x15kg押金1500元
+				</view>
+				<view class="ymoney">
+					實收金額<input type="text" v-model="yjin" />元
+				</view>
+			</view>
+			<view class="img">
+				<image src="../../static/img/1917.png" mode="widthFix"></image>
+			</view>
 			<view class="img">
 				<image src="../../static/img/1917.png" mode="widthFix"></image>
 			</view>
@@ -55,10 +66,10 @@
 				showTabBar: false,
 				type: 1,
 				num: 1,
-				order_no:'',
-				orderInfo:{},
-				store_id:'',
-				paytype:''
+				order_no: '',
+				orderInfo: {},
+				store_id: '',
+				paytype: ''
 			};
 		},
 		onLoad(option) {
@@ -70,34 +81,34 @@
 		onShow() {
 			this.getPickUp()
 		},
-		computed:{
-			time(){
+		computed: {
+			time() {
 				let date = new Date()
 				let y = date.getFullYear()
-				let M = date.getMonth()+1
+				let M = date.getMonth() + 1
 				let d = date.getDate()
 				let h = date.getHours()
 				let m = date.getMinutes()
-				let time = y+'/'+M+'/'+d+' '+' '+h+':'+m
+				let time = y + '/' + M + '/' + d + ' ' + ' ' + h + ':' + m
 				return time
 			}
 		},
 		methods: {
-			getPickUp(){
+			getPickUp() {
 				let that = this
 				uni.onNativeEventReceive((event, data) => {
 					that.store_id = data
 				})
 				let data = {
-					store_id : that.store_id,
-					order_no : that.order_no
+					store_id: that.store_id,
+					order_no: that.order_no
 				}
-				getPickUp(data).then(res=>{
+				getPickUp(data).then(res => {
 					uni.showToast({
 						title: '綁定成功',
 						icon: 'none'
 					})
-				}).catch(res=>{
+				}).catch(res => {
 					uni.showToast({
 						title: res,
 						icon: 'none'
@@ -132,14 +143,19 @@
 				}
 				getOrderInfo(data).then(res => {
 					this.orderInfo = res.data
+					uni.showModal({
+						title:'提示',
+						content:'新用戶需要酌收1桶x15kg押金1500元',
+						showCancel:false
+					})
 					getOrderConfig({}).then(res2 => {
-						res2.data.gtpay_type.forEach(item=>{
-							if(this.orderInfo.gtpay_type==item.type){
+						res2.data.gtpay_type.forEach(item => {
+							if (this.orderInfo.gtpay_type == item.type) {
 								this.paytype = item.name
 							}
 						})
 					})
-					if(res.data.store_id==0 || !res.data.store_id){
+					if (res.data.store_id == 0 || !res.data.store_id) {
 						uni.sendNativeEvent('openCamera')
 					}
 				})
@@ -154,20 +170,20 @@
 					}
 				});
 			},
-			getDelivery(){
+			getDelivery() {
 				let data = {
-					order_no:this.order_no,
-					remnant	:this.num
+					order_no: this.order_no,
+					remnant: this.num
 				}
-				getDelivery(data).then(res=>{
+				getDelivery(data).then(res => {
 					uni.showToast({
-						title:'訂單送達成功'
+						title: '訂單送達成功'
 					})
-					setTimeout(function(){
+					setTimeout(function() {
 						uni.navigateBack({
-							delta:2
+							delta: 2
 						})
-					},1000)
+					}, 1000)
 				})
 			}
 		}
@@ -186,6 +202,7 @@
 		bottom: 0;
 		left: 0;
 		z-index: 100;
+
 		navigator {
 			text-align: center;
 			padding: 20rpx;
@@ -217,10 +234,11 @@
 		min-height: 80vh;
 		position: relative;
 		padding-bottom: 230rpx;
+
 		.bottom {
 			border-top: 1px dashed #707070;
 			background-color: #fff;
-			padding: 30rpx 44rpx;
+			padding: 30rpx 44rpx 10rpx;
 			font-size: 32rpx;
 			display: flex;
 			align-items: center;
@@ -232,6 +250,26 @@
 
 			input {
 				width: 60rpx;
+				text-align: center;
+				background-color: #E8E8E8;
+				font-size: 40rpx;
+				font-weight: 700;
+				margin: 0 20rpx;
+			}
+		}
+
+		.yjin {
+			background-color: #fff;
+			padding: 10rpx 44rpx 30rpx;
+			font-size: 32rpx;
+
+			.ymoney {
+				display: flex;
+				align-items: center;
+			}
+
+			input {
+				width: 120rpx;
 				text-align: center;
 				background-color: #E8E8E8;
 				font-size: 40rpx;

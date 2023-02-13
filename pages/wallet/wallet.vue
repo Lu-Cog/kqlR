@@ -7,17 +7,16 @@
 			<view class="money">
 				{{Number(month_money)}}
 			</view>
-			<view class="name">
-				<text>今日收入 {{Number(day_money)}}</text>
-			</view>
-			<!-- <view class="tabbar">
+			<view class="tabbar">
 				<view :class="action==1?'check':''" @click="checked(1)">
-					收入明細
+					<text>今日收入</text>
+					<text>{{Number(day_money)}}</text>
 				</view>|
 				<view :class="action==2?'check':''" @click="checked(2)">
-					年金明細
+					<text>用戶押金</text>
+					<text>{{Number(day_money)}}</text>
 				</view>
-			</view> -->
+			</view>
 		</view>
 		<view class="ware" v-if="action==1">
 			<image @click="change(-1)" src="../../static/img/1186.png" mode="aspectFit"></image>
@@ -207,6 +206,7 @@
 			}
 		}
 		.tabbar{
+			margin-top: 50rpx;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
@@ -216,6 +216,9 @@
 			color: #707070;
 			view{
 				padding: 20rpx 80rpx;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
 			}
 			.check{
 				color: #FF85B4;

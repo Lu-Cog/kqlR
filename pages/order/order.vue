@@ -75,6 +75,11 @@
 			</view>
 			<view class="implementation" v-if="action==3">
 				<view class="im_instant">
+					<view class="im_head">
+						<image src="../../static/img/yjin.png" mode="widthFix"></image>
+						<view class="yjin">用戶押金</view>
+						<view class="yprice">5000 ></view>
+					</view>
 					<view class="instant_top">
 						即時訂單 單數：{{immediate!=''?'1':'0'}}
 					</view>
@@ -695,6 +700,28 @@
 				margin-top: -43rpx;
 				background: url(../../static/img/18.png) no-repeat;
 				background-size: 100% 100%;
+				box-sizing: border-box;
+				.im_head{
+					width: 100%;
+					border-radius: 20rpx;
+					background-color: #fff;
+					display: flex;
+					align-items: center;
+					box-sizing: border-box;
+					padding: 10rpx 20rpx;
+					margin: 10rpx 0;
+					image{
+						width: 50rpx;
+						height: 50rpx;
+					}
+					.yjin{
+						flex: 1;
+						padding: 0 20rpx ;
+					}
+					.yprice{
+						
+					}
+				}
 			}
 
 			.instant_top {
