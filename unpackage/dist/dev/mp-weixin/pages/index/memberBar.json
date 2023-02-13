@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "密碼變更",
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "header": "/components/header/header"
-  }
-}

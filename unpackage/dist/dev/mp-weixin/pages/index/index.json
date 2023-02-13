@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "我的",
-  "usingComponents": {
-    "dy-date-picker": "/components/dy-Date/dy-Date",
-    "tab-bar": "/components/jinjie-tabBar/jinjie-tabBar"
-  }
-}

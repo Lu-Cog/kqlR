@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "抵達配送",
-  "enablePullDownRefresh": false,
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "header": "/components/header/header"
-  }
-}
