@@ -106,6 +106,14 @@ export function yearList(data) {
   return request.get("rider/years_price_list",data);
 }
 
+
+/**
+ * 年金
+ *
+ */
+export function goldPressingList(data) {
+  return request.get("rider/goldPressingList",data);
+}
 /**
  * 订单扫码绑定瓦斯行
  *

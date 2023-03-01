@@ -14,7 +14,7 @@
 				</view>|
 				<view :class="action==2?'check':''" @click="checked(2)">
 					<text>用戶押金</text>
-					<text>{{Number(day_money)}}</text>
+					<text>{{Number(y_price)}}</text>
 				</view>
 			</view>
 		</view>
@@ -33,7 +33,7 @@
 		<view class="details">
 			<view v-if="list.length!=0" style="width: 100%;">
 				<view class="item" v-for="(item,index) in list" :key='index'>
-					<text>{{item.add_time}}</text><text>+{{item.banlan}}</text>
+					<text>{{item.add_time}}</text><text>+{{action==1?item.banlan:item.y_price}}</text>
 				</view>
 				<view class="more" v-if="showMore" @click="moreFun()">
 					加载更多
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-	import {walletList,yearList} from '@/api/index.js'
+	import {walletList,goldPressingList} from '@/api/index.js'
 	import TabBar from '../../components/jinjie-tabBar/jinjie-tabBar.vue'
 	export default {
 		components: {
@@ -60,7 +60,7 @@
 				day_money : '',
 				month_money:'',
 				query_month_money:'',
-				years_price:'',
+				y_price:'',
 				list:[],
 				year:'',
 				month:'',
@@ -68,6 +68,9 @@
 				page:1,
 				showMore:false
 			};
+		},
+		onLoad(option) {
+			this.action = option.active || 1
 		},
 		onShow() {
 			this.nowTime()
@@ -85,6 +88,7 @@
 				this.month = date.getMonth()+1
 				let month = this.month<10?'0'+this.month:this.month
 				this.yearM = this.year+'-'+month
+				this.moreFun()
 				this.walletList()
 			},
 			time(num){
@@ -107,7 +111,7 @@
 					this.list = []
 					this.page = 1
 					if(num==2){
-						this.yearList()
+						this.goldPressingList()
 					}else{
 						this.walletList()
 					}
@@ -115,17 +119,17 @@
 			},
 			moreFun(){
 				if(this.action==2){
-					this.yearList()
+					this.goldPressingList()
 				}else{
 					this.walletList()
 				}
 			},
-			yearList(){
+			goldPressingList(){
 				let data ={
 					page_index : this.page,
 					page_size : 20
 				}
-				yearList(data).then(res=>{
+				goldPressingList(data).then(res=>{
 					if(res.data.length>=20){
 						this.showMore = true
 					}else{
@@ -148,7 +152,7 @@
 				walletList(data).then(res=>{
 					this.day_money = res.data.day_money
 					this.month_money = res.data.month_money
-					this.years_price = res.data.years_price
+					this.y_price = res.data.y_price
 					this.query_month_money = res.data.query_month_money
 					if(res.data.list.length>=20){
 						this.showMore = true

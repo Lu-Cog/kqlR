@@ -26,20 +26,34 @@
 			<view class="bottom">
 				存餘氣：<text @click="reduce()">-</text><input type="text" v-model="num" /><text @click="add()">+</text>公斤
 			</view>
-			<view class="yjin">
+			<view class="yjin" v-if="orderInfo.y_pail_num">
 				<view class="tip">
-					需要酌收1桶x15kg押金1500元
+					{{orderInfo.y_rider_str}}
 				</view>
-				<view class="ymoney">
-					實收金額<input type="text" v-model="yjin" />元
+				<view class="">
+					請勾選押金的支付方式：
 				</view>
+				<radio-group @change="radioChange">
+					<label class="labelRadio">
+						<radio :value="1" color="#FF9EC1" :checked="radioIndex == 1" />
+						<view class="ymoney">
+							實收金額<input type="text" :disabled="radioIndex != 1" v-model="yjin" />元
+						</view>
+					</label>
+					<label class="labelRadio">
+						<radio :value="2" color="#FF9EC1" :checked="radioIndex == 2" />
+						<view class="ymoney">
+							匯款帳號末五位碼：<input type="text" :disabled="radioIndex != 2" v-model="bank_card" />
+						</view>
+					</label>
+				</radio-group>
 			</view>
 			<view class="img">
 				<image src="../../static/img/1917.png" mode="widthFix"></image>
 			</view>
 		</view>
 		<view class="footer">
-			<navigator url="" @click="getDelivery()">完成儲氣</navigator>
+			<navigator url="" @click="getDelivery()">完成訂單</navigator>
 			<view class="tab-bar" v-show="showTabBar === true"></view>
 		</view>
 	</view>
@@ -65,7 +79,10 @@
 				order_no:'',
 				orderInfo:{},
 				store_id:'',
-				paytype:''
+				paytype:'',
+				yjin:'',
+				radioIndex:1,
+				bank_card:''
 			};
 		},
 		onLoad(option) {
@@ -90,6 +107,9 @@
 			}
 		},
 		methods: {
+			radioChange(e){
+				this.radioIndex = e.detail.value
+			},
 			getPickUp(){
 				let that = this
 				uni.onNativeEventReceive((event, data) => {
@@ -139,11 +159,13 @@
 				}
 				getOrderInfo(data).then(res => {
 					this.orderInfo = res.data
-					uni.showModal({
-						title:'提示',
-						content:'新用戶需要酌收1桶x15kg押金1500元',
-						showCancel:false
-					})
+					if(res.data.y_pail_num){
+						uni.showModal({
+							title:'提示',
+							content:res.data.y_rider_str,
+							showCancel:false
+						})
+					}
 					getOrderConfig({}).then(res2 => {
 						res2.data.gtpay_type.forEach(item=>{
 							if(this.orderInfo.gtpay_type==item.type){
@@ -167,9 +189,35 @@
 				});
 			},
 			getDelivery(){
-				let data = {
-					order_no:this.order_no,
-					remnant	:this.num
+				let data = {}
+				if(this.radioIndex==1){
+					if(!this.yjin){
+						return uni.showToast({
+							title:'請輸入實收押金',
+							icon:'none'
+						})
+					}else{
+						data = {
+							order_no: this.order_no,
+							remnant: this.num,
+							y_price : this.yjin
+						}
+					}
+					
+				}
+				if(this.radioIndex==2){
+					if(!this.bank_card){
+						return uni.showToast({
+							title:'請輸入匯款咨詢末五位碼',
+							icon:'none'
+						})
+					}else{
+						data = {
+							order_no: this.order_no,
+							remnant: this.num,
+							bank_card : this.bank_card
+						}
+					}
 				}
 				getDelivery(data).then(res=>{
 					uni.showToast({
@@ -187,6 +235,10 @@
 </script>
 
 <style lang="less">
+	.labelRadio{
+		display: flex;
+		margin: 20rpx 0;
+	}
 	.tab-bar {
 		height: 30rpx;
 		background-color: #FF9EC1;
@@ -261,7 +313,7 @@
 				align-items: center;
 			}
 			input {
-				width: 120rpx;
+				width: 160rpx;
 				text-align: center;
 				background-color: #E8E8E8;
 				font-size: 40rpx;

@@ -75,10 +75,10 @@
 			</view>
 			<view class="implementation" v-if="action==3">
 				<view class="im_instant">
-					<view class="im_head">
+					<view class="im_head" @click="goWallet">
 						<image src="../../static/img/yjin.png" mode="widthFix"></image>
 						<view class="yjin">用戶押金</view>
-						<view class="yprice">5000 ></view>
+						<view class="yprice">{{y_price}} ></view>
 					</view>
 					<view class="instant_top">
 						即時訂單 單數：{{immediate!=''?'1':'0'}}
@@ -124,8 +124,16 @@
 										<!-- <text>收取現金</text> -->
 										<text>{{immediate.pay_price}}元</text>
 									</view>
+									<view class="deposit" v-if="immediate.y_pail_num">
+										<text>{{immediate.y_str}}</text>
+										<text>${{immediate.y_price}}元</text>
+									</view>
+									<view class="collect" v-if="immediate.y_pail_num">
+										*配送員上門收現金
+									</view>
 								</view>
 							</view>
+							
 							<view class="instant_boxb">
 								<view class="img" @click.stop="showInfo(immediate.order_id)">
 									<image
@@ -200,8 +208,16 @@
 											<!-- <text>收取現金</text> -->
 											<text>{{value.pay_price}}元</text>
 										</view>
+										<view class="deposit" v-if="value.y_pail_num">
+											<text>{{value.y_str}}</text>
+											<text>${{value.y_price}}元</text>
+										</view>
+										<view class="collect" v-if="value.y_pail_num">
+											*配送員上門收現金
+										</view>
 									</view>
 								</view>
+								
 								<view class="instant_boxb">
 									<view class="img" @click.stop="showInfo(value.order_id)">
 										<image
@@ -284,7 +300,8 @@
 		getOrderList,
 		getExecuted,
 		getStoreList,
-		getNotice
+		getNotice,
+		walletList
 	} from '../../api/index.js'
 	import TabBar from '../../components/jinjie-tabBar/jinjie-tabBar.vue'
 	export default {
@@ -307,7 +324,8 @@
 				booking_count: '',
 				storeList: [],
 				content:'',
-				order_no:''
+				order_no:'',
+				y_price:0
 			};
 		},
 		onLoad() {
@@ -326,6 +344,16 @@
 			}
 		},
 		methods: {
+			goWallet(){
+				uni.navigateTo({
+					url:'/pages/wallet/wallet?active=2'
+				})
+			},
+			walletList(){
+				walletList({}).then(res=>{
+					this.y_price = res.data.y_price
+				})
+			},
 			scanCode(){
 				uni.sendNativeEvent('openCamera')
 			},
@@ -467,6 +495,7 @@
 					this.getOrderList()
 				}
 				if (this.action == 3) {
+					this.walletList()
 					this.getExecuted()
 				}
 			},
@@ -490,6 +519,21 @@
 </script>
 
 <style lang="less">
+	.deposit{
+		margin: 20rpx 0rpx;
+		display: flex;
+		justify-content: space-between;
+		color: #FF9EC3;
+		font-size: 28rpx;
+		letter-spacing: 0px;
+	}
+	.collect{
+		margin: 10rpx 0rpx 10rpx;
+		text-align: right;
+		color: #FF9EC3;
+		letter-spacing: 0px;
+		font-size: 28rpx;
+	}
 	.mask{
 		width: 100%;
 		height: 100vh;

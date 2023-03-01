@@ -20,6 +20,13 @@
 				<!-- <text>收取現金</text> -->
 				<text>{{orderInfo.pay_price}}元</text>
 			</view>
+			<view class="deposit" v-if="orderInfo.y_pail_num">
+				<text>{{orderInfo.y_str}}</text>
+				<text>${{orderInfo.y_price}}元</text>
+			</view>
+			<view class="collect" v-if="orderInfo.y_pail_num">
+				*配送員上門收現金
+			</view>
 		</view>
 		<view class="footer">
 			<navigator url="" @click="getOrder()">接單</navigator>
@@ -111,6 +118,21 @@
 </script>
 
 <style lang="less">
+	.deposit{
+		margin: 20rpx 0rpx;
+		display: flex;
+		justify-content: space-between;
+		color: #FF9EC3;
+		font-size: 28rpx;
+		letter-spacing: 0px;
+	}
+	.collect{
+		margin: 10rpx 0rpx 10rpx;
+		text-align: right;
+		color: #FF9EC3;
+		letter-spacing: 0px;
+		font-size: 28rpx;
+	}
 	.tab-bar {
 		height: 30rpx;
 		background-color: #FF9EC1;
@@ -137,8 +159,8 @@
 		background-size: 100% 100%;
 		border-bottom: 1px solid #fff;
 		letter-spacing: 2px;
-		padding: 34rpx 30rpx;
-		height: 80vh;
+		padding: 34rpx 30rpx 100rpx;
+		min-height: 80vh;
 
 		.main {
 			background-color: #fff;
